@@ -3,10 +3,7 @@ import socket
 import time
 
 ######### This part of the code defines the commands to control Asterisk
-
-
-#HOST="172.20.16.116"
-HOST="192.168.56.101"
+HOST="SERVERIP"
 PORT=5038
 USER="USER"
 PASS="PASS"
