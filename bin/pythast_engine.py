@@ -3,10 +3,7 @@ import socket
 import time
 
 ######### This part of the code defines the commands to control Asterisk
-HOST="SERVERIP"
-PORT=5038
-USER="USER"
-PASS="PASS"
+from pythast_credentials import *  
 
 p_generate_call = """Action: login
 Events: off

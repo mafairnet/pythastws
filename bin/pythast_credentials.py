@@ -1,0 +1,5 @@
+#!/usr/bin/python
+HOST="SERVERIP"
+PORT=5038
+USER="USER"
+PASS="PASS"
