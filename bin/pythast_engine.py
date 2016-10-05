@@ -96,6 +96,31 @@ Command: %(command)s
 Action: Logoff
 """
 
+p_dbset = """Action: login
+Events: off
+Username: %(username)s
+Secret: %(password)s
+
+Action: DBPut
+Family: %(family)s
+Key: %(key)s
+Value: %(value)s
+
+Action: Logoff
+"""
+
+p_dbget = """Action: login
+Events: off
+Username: %(username)s
+Secret: %(password)s
+
+Action: DBGet
+Family: %(family)s
+Key: %(key)s
+
+Action: Logoff
+"""
+
 def recv_timeout(the_socket,timeout=0.1):
     #make socket non blocking
     the_socket.setblocking(0)
@@ -291,6 +316,53 @@ def asterisk_command(command):
             'username': USER,
             'password': PASS,
             'command': command
+                }
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    dataReceived = ""
+    for l in pattern.split('\n'):
+        #print "L:[%s]" % l
+        if l != "":
+                print "Sending... ", l
+        s.send(l+'\r\n')
+        if l == "":
+                data = recv_timeout(s)
+		dataReceived = dataReceived + data
+                print data
+    s.close()
+    return dataReceived
+    
+def asterisk_dbset(family,key,value):
+    pattern = p_dbset % {
+            'username': USER,
+            'password': PASS,
+            'family': family,
+            'key': key,
+            'value': value
+                }
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    dataReceived = ""
+    for l in pattern.split('\n'):
+        #print "L:[%s]" % l
+        if l != "":
+                print "Sending... ", l
+        s.send(l+'\r\n')
+        if l == "":
+                data = recv_timeout(s)
+		dataReceived = dataReceived + data
+                print data
+    s.close()
+    return dataReceived
+    
+def asterisk_dbget(family,key):
+    pattern = p_dbset % {
+            'username': USER,
+            'password': PASS,
+            'family': family,
+            'key': key
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
