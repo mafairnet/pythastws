@@ -104,7 +104,7 @@ Secret: %(password)s
 Action: DBPut
 Family: %(family)s
 Key: %(key)s
-Value: %(value)s
+Val: %(value)s
 
 Action: Logoff
 """
@@ -358,7 +358,7 @@ def asterisk_dbset(family,key,value):
     return dataReceived
     
 def asterisk_dbget(family,key):
-    pattern = p_dbset % {
+    pattern = p_dbget % {
             'username': USER,
             'password': PASS,
             'family': family,

@@ -118,8 +118,6 @@ def command():
             if jobqueue.result is not None:
                 response_received = True
         return str(jobqueue.result)
-
-    return render_template('response.html',response=response)
     
     if cmd == "dbset":
         response_received = False
@@ -132,8 +130,6 @@ def command():
             if jobqueue.result is not None:
                 response_received = True
         return str(jobqueue.result)
-
-    return render_template('response.html',response=response)
 
     if cmd == "dbget":
         response_received = False
