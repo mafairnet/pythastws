@@ -120,6 +120,33 @@ def command():
         return str(jobqueue.result)
 
     return render_template('response.html',response=response)
+    
+    if cmd == "dbset":
+        response_received = False
+        family = request.args.get('family')
+        key = request.args.get('key')
+        value = request.args.get('value')
+        jobqueue = q.enqueue(asterisk_dbset,family,key,value)
+        while(response_received is False):
+            time.sleep(JOB_RESULT_TIMEOUT)
+            if jobqueue.result is not None:
+                response_received = True
+        return str(jobqueue.result)
+
+    return render_template('response.html',response=response)
+
+    if cmd == "dbget":
+        response_received = False
+        family = request.args.get('family')
+        key = request.args.get('key')
+        jobqueue = q.enqueue(asterisk_dbget,family,key)
+        while(response_received is False):
+            time.sleep(JOB_RESULT_TIMEOUT)
+            if jobqueue.result is not None:
+                response_received = True
+        return str(jobqueue.result)
+
+    return render_template('response.html',response=response)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=88)
