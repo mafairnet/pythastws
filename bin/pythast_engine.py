@@ -121,6 +121,25 @@ Key: %(key)s
 Action: Logoff
 """
 
+p_user_logphone = """Action: login
+Events: off
+Username: %(username)s
+Secret: %(password)s
+
+Action: Originate
+Channel: Local/wait@from-internal
+CallerId: "Login-Logout"<9999>
+MaxRetries: 0
+RetryTime: 60
+WaitTime: 0
+Exten: s
+Context: auto-logon-logout-phone
+Priority: 1
+Variable:user=%(user)s,device=%(device)s,action=%(action)s
+
+Action: Logoff
+"""
+
 def recv_timeout(the_socket,timeout=0.1):
     #make socket non blocking
     the_socket.setblocking(0)
@@ -363,6 +382,30 @@ def asterisk_dbget(family,key):
             'password': PASS,
             'family': family,
             'key': key
+                }
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    dataReceived = ""
+    for l in pattern.split('\n'):
+        #print "L:[%s]" % l
+        if l != "":
+                print "Sending... ", l
+        s.send(l+'\r\n')
+        if l == "":
+                data = recv_timeout(s)
+		dataReceived = dataReceived + data
+                print data
+    s.close()
+    return dataReceived
+    
+def asterisk_logphone(user,device,action):
+    pattern = p_user_logphone % {
+            'username': USER,
+            'password': PASS,
+            'user': user,
+            'device': device,
+            'action': action
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

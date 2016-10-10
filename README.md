@@ -25,6 +25,8 @@ chmod +x pythast_engine.py
 chmod +x pythast_webserver.py
 ```
 
+**For USER/DEVICE mode in FreePBX add the content of the extensions_custom.conf file to your extensions_custom.conf.**
+
 Usage
 -----
 Start Redis

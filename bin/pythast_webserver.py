@@ -7,7 +7,8 @@ from rq import Connection, Queue, get_current_job
 from rq.job import Job
 from redis import Redis
 
-from pythast_engine  import generate_call,asterisk_command,queue_show_all,add_member,pause_member,unpause_member,remove_member
+from pythast_engine  import *
+from pythast_credentials import TOKEN
 
 ######### This part of the code defines the isntructions to initialize redis connection
 redis_conn = Redis()
@@ -30,14 +31,22 @@ def monitor():
 
 @app.route('/command')
 def command():
+    
+    response = ""
 
     cmd = request.args.get('cmd')
 
-    if cmd is None:
-        cmd = "Argument not provided"
     print cmd
+    if cmd is None:
+        response = "Command not provided"
+        return response    
+    
+    token = request.args.get('token')
 
-    response = ""
+    print token
+    if token is None:
+        response = "Token not provided"
+        return response
 
     if cmd == "originate":
         response_received = False
@@ -136,6 +145,18 @@ def command():
         family = request.args.get('family')
         key = request.args.get('key')
         jobqueue = q.enqueue(asterisk_dbget,family,key)
+        while(response_received is False):
+            time.sleep(JOB_RESULT_TIMEOUT)
+            if jobqueue.result is not None:
+                response_received = True
+        return str(jobqueue.result)
+
+    if cmd == "logphone":
+        response_received = False
+        user = request.args.get('user')
+        device = request.args.get('device')
+        action = request.args.get('action')
+        jobqueue = q.enqueue(asterisk_logphone,user,device,action)
         while(response_received is False):
             time.sleep(JOB_RESULT_TIMEOUT)
             if jobqueue.result is not None:
