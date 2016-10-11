@@ -59,6 +59,16 @@ def command():
                 response_received = True
         return str(jobqueue.result)
 
+    if cmd == "hangup":
+        response_received = False
+        channel = request.args.get('channel')
+        jobqueue = q.enqueue(hangup_call,channel)
+        while(response_received is False):
+            time.sleep(JOB_RESULT_TIMEOUT)
+            if jobqueue.result is not None:
+                response_received = True
+        return str(jobqueue.result)
+
     if cmd == "queueaddmember":
         response_received = False
         queue = request.args.get('queue')

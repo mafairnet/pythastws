@@ -21,6 +21,17 @@ Priority: 1
 Action: Logoff
 """
 
+p_hangup_call = """Action: login
+Events: off
+Username: %(username)s
+Secret: %(password)s
+
+Action: Hangup
+Channel: %(channel)s
+
+Action: Logoff
+"""
+
 p_queue_add_member = """Action: login
 Events: off
 Username: %(username)s
@@ -199,6 +210,30 @@ def generate_call(phone_to_dial, local_user):
     dataReceived = dataReceived + data
     s.close()
     return dataReceived
+    
+def hangup_call(channel):
+    pattern = p_hangup_call % {
+            'username': USER,
+            'password': PASS,
+            'channel': channel}
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    dataReceived = ""
+    data = s.recv(1024)
+    dataReceived = dataReceived + data
+    for l in pattern.split('\n'):
+        print "Sending&gt;", l
+        s.send(l+'\r\n')
+        if l == "":
+            data = s.recv(1024)
+	    dataReceived = dataReceived + data
+            print data
+    data = s.recv(1024)
+    dataReceived = dataReceived + data
+    s.close()
+    return dataReceived
+    
 
 def add_member( queue, interface, state_interface, member_name):
     pattern = p_queue_add_member % {
