@@ -5,10 +5,10 @@ This tool is a webservice to make requests through AMI to Asterisk. This service
 
 Prerequisites
 -----------
--Linux 2.6 
--Redis
--Python 2.7
--Flask
+- Linux 2.6 
+- Redis
+- Python 2.7
+- Flask
 
 Installation
 -----------
@@ -24,8 +24,6 @@ chmod +x pythast_worker.py
 chmod +x pythast_engine.py
 chmod +x pythast_webserver.py
 ```
-
-**For USER/DEVICE mode in FreePBX add the content of the extensions_custom.conf file to your extensions_custom.conf.**
 
 Usage
 -----

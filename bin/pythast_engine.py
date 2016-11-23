@@ -151,6 +151,16 @@ Variable:user=%(user)s,device=%(device)s,action=%(action)s
 Action: Logoff
 """
 
+p_status = """Action: login
+Events: off
+Username: %(username)s
+Secret: %(password)s
+
+Action: Status
+
+Action: Logoff
+"""
+
 def recv_timeout(the_socket,timeout=0.1):
     #make socket non blocking
     the_socket.setblocking(0)
@@ -441,6 +451,27 @@ def asterisk_logphone(user,device,action):
             'user': user,
             'device': device,
             'action': action
+                }
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    dataReceived = ""
+    for l in pattern.split('\n'):
+        #print "L:[%s]" % l
+        if l != "":
+                print "Sending... ", l
+        s.send(l+'\r\n')
+        if l == "":
+                data = recv_timeout(s)
+		dataReceived = dataReceived + data
+                print data
+    s.close()
+    return dataReceived
+    
+def asterisk_status():
+    pattern = p_status % {
+            'username': USER,
+            'password': PASS
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

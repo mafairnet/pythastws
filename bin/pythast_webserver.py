@@ -173,6 +173,15 @@ def command():
                 response_received = True
         return str(jobqueue.result)
 
+    if cmd == "status":
+        response_received = False
+        jobqueue = q.enqueue(asterisk_status)
+        while(response_received is False):
+            time.sleep(JOB_RESULT_TIMEOUT)
+            if jobqueue.result is not None:
+                response_received = True
+        return str(jobqueue.result)
+
     return render_template('response.html',response=response)
 
 if __name__ == '__main__':
