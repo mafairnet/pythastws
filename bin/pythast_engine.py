@@ -205,7 +205,10 @@ def generate_call(phone_to_dial, local_user):
             'local_user': local_user}
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -228,7 +231,10 @@ def hangup_call(channel):
             'channel': channel}
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -256,8 +262,10 @@ def add_member( queue, interface, state_interface, member_name):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -282,8 +290,10 @@ def remove_member( queue, interface):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -308,8 +318,10 @@ def pause_member(queue, interface):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -334,8 +346,10 @@ def unpause_member(queue, interface):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-    
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -358,8 +372,10 @@ def queue_show_all():
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
-
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     data = s.recv(1024)
     dataReceived = dataReceived + data
@@ -383,7 +399,10 @@ def asterisk_command(command):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     for l in pattern.split('\n'):
         #print "L:[%s]" % l
@@ -407,7 +426,10 @@ def asterisk_dbset(family,key,value):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     for l in pattern.split('\n'):
         #print "L:[%s]" % l
@@ -430,7 +452,10 @@ def asterisk_dbget(family,key):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     for l in pattern.split('\n'):
         #print "L:[%s]" % l
@@ -454,7 +479,10 @@ def asterisk_logphone(user,device,action):
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     for l in pattern.split('\n'):
         #print "L:[%s]" % l
@@ -475,7 +503,10 @@ def asterisk_status():
                 }
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
+    try:
+        s.connect((HOST, PORT))
+    except Exception as e:
+        return str(e)
     dataReceived = ""
     for l in pattern.split('\n'):
         #print "L:[%s]" % l
